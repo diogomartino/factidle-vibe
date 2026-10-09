@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", monospace;
+  --color-bg: #111113;
+  --color-panel: #18181b;
+  --color-raised: #222226;
+  --color-line: #2c2c31;
+  --color-line-strong: #3f3f46;
+  --color-text: #e4e4e7;
+  --color-muted: #8b8b94;
+  --color-accent: #f5a524;
+  --color-good: #4ade80;
+  --color-bad: #f87171;
+  --color-warn: #fbbf24;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-bg text-text font-sans text-[13px] antialiased;
+    color-scheme: dark;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+  img {
+    image-rendering: auto;
+  }
+}
+
+@keyframes float-up {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -40px);
+  }
+}
+
+@keyframes edge-pulse {
+  0%,
+  100% {
+    box-shadow: inset 0 0 0 0 transparent;
+  }
+  50% {
+    box-shadow: inset 0 0 48px 4px color-mix(in srgb, var(--color-bad) 55%, transparent);
+  }
+}
+
+.animate-edge-pulse {
+  animation: edge-pulse 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-edge-pulse {
+    animation: none;
+    box-shadow: inset 0 0 24px 2px color-mix(in srgb, var(--color-bad) 45%, transparent);
+  }
+}
+
+.animate-float-up {
+  animation: float-up 0.8s ease-out forwards;
+}
+
+input[type="range"] {
+  @apply h-1 w-full cursor-pointer appearance-none rounded bg-line-strong accent-text;
+}
+input[type="range"]::-webkit-slider-thumb {
+  @apply size-3.5 appearance-none rounded-full border-2 border-text bg-bg;
+}
+input[type="range"]::-moz-range-thumb {
+  @apply size-3 rounded-full border-2 border-text bg-bg;
+}
+
+/* uPlot legend and cursor, themed for the dark UI */
+.uplot {
+  font-family: inherit;
+}
+/* Prefixed with .uplot to win over uPlot's own stylesheet, which loads later. */
+.uplot .u-legend {
+  margin-top: 4px;
+  color: var(--color-muted);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  line-height: 1.2;
+}
+.uplot .u-legend th {
+  font-weight: 400;
+}
+.uplot .u-legend .u-series > * {
+  padding: 1px 4px;
+}
+.uplot .u-legend .u-value {
+  color: var(--color-text);
+  font-family: var(--font-mono);
+}
+.uplot .u-legend .u-marker {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+/* The x value ("Time") is already on the axis. */
+.uplot .u-legend .u-series:first-child {
+  display: none;
+}
+.u-cursor-x,
+.u-cursor-y {
+  border-color: var(--color-line-strong) !important;
+}
